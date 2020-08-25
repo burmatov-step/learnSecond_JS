@@ -24,9 +24,16 @@ function saleSum(sumAll, products, promo ) {
     return sumEnd;
   }
 
-  sumEnd = sumAll - sale
-  return sumEnd
+
+  if(sale === 0){
+    return
+  } else{
+    sumEnd = sumAll - sale;
+    return sumEnd;
+  }
+
 }
 
 
-console.log(saleSum(150000, 10, "100"));
+console.log(saleSum(150000, 10, '100'));
+
