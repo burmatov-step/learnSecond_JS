@@ -19,7 +19,7 @@ function saleSum(sumAll, products, promo ) {
 
   if(promo === '100' && sumAll > 100){
     sale += 100
-  } else if(promo === '100' && sumAll < 100){
+  } else if(promo === '100' && sumAll <= 100){
     sumEnd = 0;
     return sumEnd;
   }
