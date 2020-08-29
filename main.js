@@ -1,24 +1,28 @@
 "use strict";
 
 
-
-
-class First {
-  hello(){
-    console.log('Привет, я метод родителя');
+function isSomeTrue(array, func) {
+  let [i, ...spreat] = [...array];
+  if (i) {
+    if (func(i)) {
+      return true;
+    } else {
+      return isSomeTrue(spreat, func);
+    }
+  } else{
+    return false
   }
 }
 
-class Second extends First{
-  hello(){
-    super.hello();
-    console.log('А я наследуемый метод')
-  }
+let allNumbers = [1, 2, 4, 5, 6, 7, 8],
+  someNumbers = [1, 2, "Hello", 4, 5, "world", 6, 7, 8],
+  noNumbers = ["здесь", "нет", "чисел"];
+
+
+function isNumber(val) {
+  return typeof val === "number";
 }
 
-
-const first = new First();
-const second = new Second();
-
-first.hello();
-second.hello();
+console.log(isSomeTrue(allNumbers, isNumber));
+console.log(isSomeTrue(someNumbers, isNumber));
+console.log(isSomeTrue(noNumbers, isNumber));
