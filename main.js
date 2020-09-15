@@ -1,73 +1,70 @@
-const h1 = document.querySelector(".h1"),
-    h2 = document.querySelector(".h2"),
-    h3 = document.querySelector(".h3"),
-    h4 = document.querySelector(".h4"),
-    h5 = document.querySelector(".h5"),
-    h6 = document.querySelector(".h6"),
-    h7 = document.querySelector(".h7"),
-    button = document.querySelector(".button"),
-    img = document.querySelector(".img"),
-    res = document.querySelector('.reset');
+const sel = document.querySelectorAll("select"),
+    input = document.querySelectorAll("input"),
+    label = document.querySelectorAll("label"),
+    button = document.querySelector("button");
 
-let count = -40,
-    count1 = -60,
-    count2 = -80,
-    count3 = -100,
-    count4 = -120,
-    count5 = -140,
-    count6 = -160,
-    count7 = -100;
-let interval;
-let i = true;
-h1.style.left = "-40px";
-h2.style.left = "-50px";
-h3.style.left = "-60px";
-h4.style.left = "-70px";
-h5.style.left = "-80px";
-h6.style.left = "-90px";
-h7.style.left = "-100px";
-const animate = function() {
-    interval = requestAnimationFrame(animate);
-    count++;
-    count1++;
-    count2++;
-    count3++;
-    count4++;
-    count5++;
-    count6++;
-    if (count < 20) {
-        h1.style.left = `${count}px`;
-    } else if (count1 < 30) {
-        h2.style.left = `${count1}px`;
-    } else if (count2 < 40) {
-        h3.style.left = `${count2}px`;
-    } else if (count3 < 50) {
-        h4.style.left = `${count3}px`;
-    } else if (count4 < 60) {
-        h5.style.left = `${count4}px`;
-    } else if (count5 < 70) {
-        h6.style.left = `${count5}px`;
-    } else if (count6 < 80) {
-        h7.style.left = `${count6}px`;
-    } else if (count6 > 60 && count7 < -30) {
-        count7++;
-        img.style.top = `${count7}px`;
-    } else {
-        cancelAnimationFrame(interval);
+const nameForm1 = () => {
+    for (let i = 0; i < 2; i++)
+        if (sel[i].value === "usd") {
+            input[i].placeholder = "USD";
+            label[i].textContent = "Доллар США(USD)";
+        } else if (sel[i].value === "eur") {
+            input[i].placeholder = "EUR";
+            label[i].textContent = "Евро (EUR)";
+        } else {
+            input[i].placeholder = "RUB";
+            label[i].textContent = "Российский рубль (RUB)";
+        }
+};
+
+const calc = (first, second, eur) => {
+    if (first === second) {
+        input[1].value = input[0].value;
+    } else if (second === "usd" && first === "eur") {
+        input[1].value = +input[0].value * +eur.USD;
+    } else if (second === "usd" && first === "rub") {
+        input[1].value = (+input[0].value / +eur.RUB) * eur.USD;
+    } else if (second === "eur" && first === "usd") {
+        input[1].value = +input[0].value / +eur.USD;
+    } else if (second === "eur" && first === "rub") {
+        input[1].value = +input[0].value / +eur.RUB;
+    } else if (second === "rub" && first === "eur") {
+        input[1].value = +input[0].value * +eur.RUB;
+    } else if (second === "rub" && first === "usd") {
+        input[1].value = (+input[0].value / +eur.USD) * eur.RUB;
     }
 };
 
 
-button.addEventListener('click', () => {
-    if (i) {
-        interval = requestAnimationFrame(animate);
-        i = false;
-    } else {
-        cancelAnimationFrame(interval);
-        i = true;
-    }
+sel.forEach(item => {
+    item.addEventListener("change", nameForm1);
 });
 
-res.addEventListener('click', () => {
-    location.reload();
+const postData = () =>
+    fetch("https://api.exchangeratesapi.io/latest", {
+        method: "GET",
+    });
+
+input[0].addEventListener('input', e => {
+    console.log(e.target.value);
+    e.target.value = e.target.value.match(/[0-9]*/);
 });
+
+button.addEventListener('click', e => {
+    e.preventDefault();
+    const first = sel[0].value;
+    const second = sel[1].value;
+
+    postData()
+        .then(response => response.json())
+        .then(data => {
+            calc(first, second, data.rates);
+            console.log(data.rates);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+});
+
+

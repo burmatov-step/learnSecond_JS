@@ -4,21 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<form class="usd">
+  <div class="wrapper-first">
+    <div class="first__input">
+    <label>Доллар США(USD)</label>
+    <input type="text" placeholder="USD">
+  </div>
 
-<span class="h1" style="position: relative">П</span>
-<span class="h2" style="position: relative">р</span>
-<span class="h3" style="position: relative">и</span>
-<span class="h4" style="position: relative">е</span>
-<span class="h5" style="position: relative">х</span>
-<span class="h6" style="position: relative">а</span>
-<span class="h7" style="position: relative">л</span>
-<div><img src="cat.png" alt="" class="img" style="width: 150px; transform: rotateX(180deg); position: relative; left: 150px; top: -150px"></div>
+  <select id="one">
+    <option value="usd">usd</option>
+    <option value="eur">eur</option>
+    <option value="rub">rub</option>
+  </select>
+  </div>
 
-<button class="button">Нажми меня</button>
-<button class="reset">reset</button>
+  <div class="wrapper-second">
+    <div class="second__input">
+    <label>Доллар США(USD)</label>
+    <input type="text" placeholder="USD" disabled>
+  </div>
+
+  <select id="two">
+    <option value="usd">usd</option>
+    <option value="eur">eur</option>
+    <option value="rub">rub</option>
+  </select>
+  </div>
+  <button>Конвертировать</button>
+</form>
 
 
 
